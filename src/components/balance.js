@@ -1,5 +1,6 @@
 
 const Balance = ({balance, income, exspense}) => {
+
     return(
         <div className="balance-container">
             <h3>Your balance</h3>

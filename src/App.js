@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import AddTraker from "./components/addTracker";
 import Balance from "./components/balance";
 import History from "./components/history";
@@ -10,20 +10,31 @@ function App() {
   const [balance, setBalance] = useState(0)
   const [history, setHistory] = useState([{text: '', id: 0, amount: 0}])
   console.log(balance);
+
+  useEffect(
+    () => setBalance(income - exspense), [income, exspense]
+  )
+
+  const transiton = (amount, text) => {
+
+    if (Number.isInteger(Number(amount)) && amount.includes('+')) {
+      setIncome(income + Number(amount))
+    }
+    else if (Number.isInteger(Number(amount)) && amount.includes('-')) {
+      setExpense(exspense - Number(amount))
+    }
+    else {
+      alert('Enter a number')
+    }
+  }
+
   return (
     <div>
       <div className="trakcer-container">
         <h1>Expense Tracker</h1>
         <Balance balance={balance} income={income} exspense={exspense}/>
         <History />
-        <AddTraker 
-          setIncome={setIncome} 
-          setExpense={setExpense} 
-          income={income} 
-          exspense={exspense}
-          setBalance={setBalance}
-          balance={balance}
-        />
+        <AddTraker transiton = {transiton}/>
       </div>
     </div>
   );
